@@ -1,0 +1,70 @@
+.main {
+	height: 50vh;
+}
+.row {
+	padding-top: 65px;
+}
+#map {
+	height: 45vh;
+}
+
+#globe {
+	height: 45vh;
+}
+
+.container {
+	max-width: 100%;
+}
+
+body {
+	background-color: #000;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/*
+INFO COLLAPSIBLE
+*/
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+.info_collapsible {
+	position : absolute;
+	z-index: 1000;
+}
+/*
+END INFO COLLAPSIBLE
+*/

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<link href='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.css' rel='stylesheet' />
+	<link href="css/index.css" rel="stylesheet">
+    <title>vis_globe_2D_3D</title>
+  </head>
+  <body>
+	<div class='info_collapsible'>
+		<button class="collapsible">INFO</button>
+		<div class="content">
+			<p>
+				Description : 
+				The map is create using MapboxJS. 
+				The particles for the map is using PixiJS. 
+				The globe is using ThreeJS. 
+				There is a sync between both map and globe so that each action on either of it will effect of the other one.
+				The particles showing real time tweet around the world.
+			</p>
+			<p>
+				Control : Use mouse to zoom and pan the globe and the map.
+			</p>
+			<p>
+				
+				Data : 
+				<a href="https://www.pubnub.com/developers/realtime-data-streams/twitter-stream/" target="_blank">
+					https://www.pubnub.com/developers/realtime-data-streams/twitter-stream/
+				</a>
+			</p>
+			<p>
+				Github : 
+				<a href="https://github.com/mohamadsubakin/vis_globe_2D_3D" target="_blank">
+					https://github.com/mohamadsubakin/vis_globe_2D_3D
+				</a>
+			</p>
+		</div>
+	</div>
+	<div class="container">
+	  <div class="main row">
+		<div class="col-md-8">
+			<div id="map"></div>
+		</div>
+		<div class="col-md-4">
+			<div id="globe"></div>
+		</div>
+	  </div>
+	</div>
+	
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.34.0/mapbox-gl.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.4.3/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/easing/EasePack.min.js"></script>
+    <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+	  
+    <script type="x-shader/x-vertex" id="vertexshader">
+        uniform float amplitude;
+        attribute float size;
+        attribute vec3 customColor;
+        varying vec3 vColor;
+        void main() {
+            vColor = customColor;
+            vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+            gl_PointSize = size * ( 300.0 / -mvPosition.z );
+            gl_Position = projectionMatrix * mvPosition;
+        }
+    </script>
+    <script type="x-shader/x-fragment" id="fragmentshader">
+        uniform vec3 color;
+        uniform sampler2D texture;
+        varying vec3 vColor;
+        void main() {
+            gl_FragColor = vec4( color * vColor, 1.0 );
+            gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+        }
+    </script>
+    <script src="js/index.js" type="text/javascript"></script>
+  </body>
+</html>
